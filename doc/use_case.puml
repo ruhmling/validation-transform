@@ -1,0 +1,16 @@
+@startuml
+title "CU validation&transform par"
+
+Interactor -> ValidateAndTransformFactory: getValidateAndTransformHandler()
+ValidateAndTransformFactory -> ValidateAndTransformHandler: new()
+ValidateAndTransformFactory -> ValidateAndTransformHandler: addNext(validationAndTransform)...
+ValidateAndTransformFactory --> Interactor: handler
+
+Interactor -> ValidateAndTransformHandler: execute(payment, transaction)
+group recursive execution of validations and transforms
+    ValidateAndTransformHandler -> ValidateAndTransformHandler: next()
+    ValidateAndTransformHandler -> ValidateAndTransformHandler: execute(payment, transaction)
+end
+ValidateAndTransformHandler --> Interactor: transaction
+
+@enduml
